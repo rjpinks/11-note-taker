@@ -4,14 +4,18 @@ const app = express();
 const path = require("path");
 const PORT = 3001;
 
-//GET Method for api/notes
-const getNotesCall = app.get("/api/notes", (req, res) => {
+//GET calls
+const getNotesCall = app.get("/notes", (req, res) => {
     //this guy needs to return notes.html
     res.sendFile(path.join(__dirname, "./public/notes.html"));
     console.log("GET request called!");
 });
 
-//POST Method for /api/notes
+const getAstrickCall = app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
+    console.log("GetAstrickCall worked");
+})
+
 const getNotesPost = app.post("/api/notes", (req, res) => {
     res.send("POST request called!? IDK I'll need to use postman");
     console.log("Yay? -> POST Call made");
