@@ -1,11 +1,14 @@
 //Variables for the app
 const express = require("express");
 const app = express();
+const path = require("path");
 const PORT = 3001;
 
 //GET Method for api/notes
 const getNotesCall = app.get("/api/notes", (req, res) => {
-    res.send("GET request called!");
+    //this guy needs to return notes.html
+    res.sendFile(path.join(__dirname, "./public/notes.html"));
+    console.log("GET request called!");
 });
 
 //POST Method for /api/notes
