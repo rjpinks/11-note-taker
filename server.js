@@ -6,10 +6,15 @@ const PORT = 3001;
 
 //GET calls
 const getNotesCall = app.get("/notes", (req, res) => {
-    //this guy needs to return notes.html
     res.sendFile(path.join(__dirname, "./public/notes.html"));
     console.log("GET request called!");
 });
+
+const getApiNotesCall = app.get("/api/notes", (req, res) => {
+    //this guy needs to read the db.json file
+    res.sendFile(path.join(__dirname, "./db/db.json"));
+    console.log("getApiNotesCall worked!");
+})
 
 const getAstrickCall = app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
