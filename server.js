@@ -1,11 +1,14 @@
 //Variables for the app
 const express = require("express");
-const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
-const app = express();
+const db = require("./db/db.json");
 const path = require("path");
+const fs = require("fs");
+const app = express();
 const PORT = 3001;
+
+// Middleware for parsing application/json and urlencoded data (taken from 11-Express Body Parsing activity)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //GET calls
 const getNotesCall = app.get("/notes", (req, res) => {
@@ -25,16 +28,36 @@ const getAstrickCall = app.get("/*", (req, res) => {
 })
 
 //POST Call
-const getNotesPost = app.post("/api/notes", urlencodedParser, (req, res) => {
-    let data = req.body;
-    console.log(data, "this was the body from the POST request");
-    console.log("getNotesPost was called!");
-})
+const getNotesPost = app.post("/api/notes", (req, res) => {
+    let response;
 
-const getNotesDelete = app.delete("/api/notes", (req, res) => {
-    res.send("DELETE request made dawg");
-    console.log("We done made a DELETE call");
-})
+    if (req.body.title && req.body.text) {
+        response = {
+            status: "success",
+            data: req.body,
+        };
+        fs.readFile("./db/db.json", (err, data) => {
+            if (err) {
+                console.log(err);
+            };
+            let parsedData = JSON.parse(data);
+            parsedData = parsedData.push(response.data);
+            fs.writeFile("./db/db.json", (JSON.stringify(parsedData), (err) => {
+                if (err) {
+                    console.log("FAILURE");
+                };
+            }))
+        });
+        res.json(`The note titled ${req.body.title} had been added!`);
+    } else {
+        res.json(`Something went wrong...`);
+    }
+});
+
+// DELETE command that I probably will not get to
+/*const getNotesDelete = app.delete("/api/notes", (req, res) => {
+    console.log("We made a DELETE call");
+});*/
 
 
 app.listen(PORT, (err) => {
