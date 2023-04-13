@@ -1,5 +1,8 @@
 //Variables for the app
 const express = require("express");
+const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
 const path = require("path");
 const PORT = 3001;
@@ -21,9 +24,11 @@ const getAstrickCall = app.get("/*", (req, res) => {
     console.log("GetAstrickCall worked");
 })
 
-const getNotesPost = app.post("/api/notes", (req, res) => {
-    res.send("POST request called!? IDK I'll need to use postman");
-    console.log("Yay? -> POST Call made");
+//POST Call
+const getNotesPost = app.post("/api/notes", urlencodedParser, (req, res) => {
+    let data = req.body;
+    console.log(data, "this was the body from the POST request");
+    console.log("getNotesPost was called!");
 })
 
 const getNotesDelete = app.delete("/api/notes", (req, res) => {
