@@ -6,13 +6,15 @@ I created the server.js file in order to practice and better understand how the 
 
 ## Installation
 
-The only package that needs to be installed is express. There is no further installation required.
+Express is the only package that is required. bodyparser is in the dependencies, but I actually do not think that I used it.
 
 ## Usage
 
 This is where the GIF would go. I might consider using another option then a straight GIF.
 
 I also will need to see how the front-end interacts, so I can give some detail on that bc that is how the app will work.
+
+I did not get my app to work... Here's the deployed product though :/... [heroku app](https://taking-notes-app.herokuapp.com/).
 
 ## Credits
 
