@@ -4,7 +4,7 @@ const db = require("./db/db.json");
 const path = require("path");
 const fs = require("fs");
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Middleware for parsing application/json and urlencoded data (taken from 11-Express Body Parsing activity)
 app.use(express.json());
@@ -30,6 +30,7 @@ const getAstrickCall = app.get("/*", (req, res) => {
 //POST Call
 const getNotesPost = app.post("/api/notes", (req, res) => {
     let response;
+    console.log(req.body);
 
     if (req.body.title && req.body.text) {
         response = {
@@ -41,7 +42,11 @@ const getNotesPost = app.post("/api/notes", (req, res) => {
                 console.log(err);
             };
             let parsedData = JSON.parse(data);
-            parsedData = parsedData.push(response.data);
+            console.log("parsedData ->", parsedData)
+            console.log("response.data ->", response.data);
+            parsedData.push(response.data);
+            console.log("new parsedData ->", parsedData);
+            //Callback function not working
             fs.writeFile("./db/db.json", (JSON.stringify(parsedData), (err) => {
                 if (err) {
                     console.log("FAILURE");
