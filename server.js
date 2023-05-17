@@ -30,13 +30,14 @@ const getAstrickCall = app.get("/*", (req, res) => {
 //POST Call
 const getNotesPost = app.post("/api/notes", (req, res) => {
     let response;
-    console.log(req.body);
+    console.log(req.body.title, req.body.text);
 
     if (req.body.title && req.body.text) {
         response = {
             status: "success",
             data: req.body,
         };
+        console.log(response);
         fs.readFile("./db/db.json", (err, data) => {
             if (err) {
                 console.log(err);
@@ -47,11 +48,11 @@ const getNotesPost = app.post("/api/notes", (req, res) => {
             parsedData.push(response.data);
             console.log("new parsedData ->", parsedData);
             //Callback function not working
-            fs.writeFile("./db/db.json", (JSON.stringify(parsedData), (err) => {
+            fs.writeFile("./db/db.json", JSON.stringify(parsedData), (err) => {
                 if (err) {
                     console.log("FAILURE");
                 };
-            }))
+            })
         });
         res.json(`The note titled ${req.body.title} had been added!`);
     } else {
