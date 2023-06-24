@@ -9,18 +9,31 @@ const PORT = process.env.PORT || 3001;
 // Middleware for parsing application/json and urlencoded data (taken from 11-Express Body Parsing activity)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
 //GET calls
-const getNotesCall = app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
-    console.log("GET request called!");
+// const getApiNotesCall = app.get("/api/notes", (req, res) => {
+//     //this guy needs to read the db.json file
+//     res.sendFile(path.join(__dirname, "./db/db.json"));
+//     console.log("getApiNotesCall worked!");
+// })
+
+app.get('/api/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            res.send(data);
+        }
+    });
 });
 
-const getApiNotesCall = app.get("/api/notes", (req, res) => {
-    //this guy needs to read the db.json file
-    res.sendFile(path.join(__dirname, "./db/db.json"));
-    console.log("getApiNotesCall worked!");
-})
+const getNotesCall = app.get("/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/notes.html"));
+    console.log("getNotesCalled executed!");
+});
+
+
 
 const getAstrickCall = app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
