@@ -11,12 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-//GET calls
-// const getApiNotesCall = app.get("/api/notes", (req, res) => {
-//     //this guy needs to read the db.json file
-//     res.sendFile(path.join(__dirname, "./db/db.json"));
-//     console.log("getApiNotesCall worked!");
-// })
 
 app.get('/api/notes', (req, res) => {
     fs.readFile('./db/db.json', 'utf-8', (err, data) => {
@@ -71,11 +65,6 @@ app.post("/api/notes", (req, res) => {
         res.json(`Something went wrong...`);
     }
 });
-
-// DELETE command that I probably will not get to
-/*const getNotesDelete = app.delete("/api/notes", (req, res) => {
-    console.log("We made a DELETE call");
-});*/
 
 
 app.listen(PORT, (err) => {
